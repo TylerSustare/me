@@ -1,0 +1,30 @@
+import { ArticleLayout } from '@/components/ArticleLayout'
+
+export const article = {
+  author: 'Tyler Sustare',
+  date: '2020-09-02',
+  title:
+    'Unlocking the Power of Global Secondary Indexes (GSI) in AWS DynamoDB for Enhanced Flexibility',
+  description:
+    "In AWS DynamoDB, Global Secondary Indexes (GSIs) are much better than Local Secondary Indexes (LSIs) because they're super flexible. GSIs let you search for stuff in all sorts of different ways and make changes without redoing the whole table, which LSIs can't do. Plus, LSIs are a one-time deal. Only once while you create the table, you can't add them later.",
+}
+
+export const metadata = {
+  title: article.title,
+  description: article.description,
+}
+
+export default (props) => <ArticleLayout article={article} {...props} />
+
+When it comes to designing data models in AWS DynamoDB, one of the pivotal decisions you must make is whether to opt for Global Secondary Indexes (GSI) or Local Secondary Indexes (LSI). While both options provide
+essential indexing capabilities for efficient data retrieval, the preference for GSI over LSI often arises from the significant flexibility advantage it offers, along with a crucial limitation in the LSI's setup process.
+
+Global Secondary Indexes excel in flexibility, a quality that Local Secondary Indexes simply cannot match. Unlike LSIs, which are bound to a single partition key value, GSIs empower you to query data across a broader spectrum. This flexibility becomes invaluable as your application's query patterns evolve or when you
+encounter complex queries that surpass the capabilities of a single LSI. With GSIs, you have the freedom to adapt to changing access patterns and evolving data requirements without the need for a full table rebuild, which can be resource-intensive and time-consuming.
+
+It's worth noting a significant limitation of LSIs: you cannot add a Local Secondary Index once the table has been created. This constraint underscores the importance of careful planning during the initial table design phase. In contrast, GSIs can be added or modified even after the table is created, enhancing the agility and adaptability of your DynamoDB database. This further emphasizes the role of Global Secondary Indexes in providing the flexibility and extensibility needed to meet evolving application demands.
+
+Additionally, the adoption of a single-table design with composite primary keys, often denoted as "pk" (partition key) and "sk" (sort key), can significantly reduce the dependence on GSIs. By thoughtfully designing your primary key schema to accommodate diverse access patterns, you can efficiently query data without introducing the added complexity and cost associated with multiple GSIs. This approach encourages meticulous consideration of your data model, ultimately resulting in a streamlined and cost-effective DynamoDB architecture.
+
+In conclusion, the choice between Global Secondary Indexes (GSI) and Local Secondary Indexes (LSI) in AWS DynamoDB often hinges on the need for flexibility and adaptability in your database design. While GSIs excel in these aspects, it's crucial to be aware of the inability to add LSIs after table creation. The judicious
+use of a single-table design with composite primary keys can further reduce the reliance on GSIs, promoting efficient and cost-effective data modeling within AWS DynamoDB. When constructing your DynamoDB database, consider your query patterns, scalability requirements, and the potential for shifting access patterns to determine whether GSIs or LSIs align best with your application's needs.

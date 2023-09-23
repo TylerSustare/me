@@ -1,0 +1,276 @@
+import { ArticleLayout } from '@/components/ArticleLayout'
+import Image from 'next/image'
+
+export const article = {
+  author: 'Tyler Sustare',
+  date: '2021-09-21',
+  title: 'Reactive React with RxJS',
+  description:
+    'Using WebSockets is a great way to build highly interactive real-time apps. Using raw WebSockets in React can be cumbersome.  RxJS is a great way to manage streams of data in JavaScript and makes reactive React a delight.',
+}
+
+export const metadata = {
+  title: article.title,
+  description: article.description,
+}
+
+export default (props) => <ArticleLayout article={article} {...props} />
+
+## tl;dr;
+
+Using WebSockets is a great way to build highly interactive real-time apps. Using raw WebSockets in React can be cumbersome.
+RxJS is a great way to manage streams of data in JavaScript and makes reactive React a delight.
+
+Server and React Code for this example can be found on [GitHub here](https://github.com/TylerSustare/mysite/tree/main/examples/reactive-react)
+
+For a simplified version, see the code reference at the end of this article.
+
+## Introduction - Why do this?
+
+React is a great library for building user interfaces, but it's not always a great library for building truly
+**reactive** applications. RxJS is a great library for building reactive applications, but it doesn't
+help build user interfaces. This article will show you how to combine the two to build a truly
+reactive application with React.
+
+##### Aside: Angular
+
+I'm sorry to my Angular friends who have been using RxJS for years. I'm not taking anything away
+from Angular. I'm only trying to show you how to use RxJS with React.
+
+## What is Reactive Programming?
+
+Reactive programming is a paradigm that allows us to set up our code in a way that we accept incoming
+messages and the front end **reacts** to the changes from the message. These changes could come from server
+events, other clients, etc. Reactive programming is framework/library agnostic.
+
+This is slightly different than **React.js** traditionally thinks of the world. We make state or prop changes
+and the virtual dom _reacts_ to those changes the user made.
+
+> If you would like an explanation on WebSockets first, check them out in [this quick explanation here](./websockets).
+
+## RxJS With React
+
+> If you would like an explanation on why we'd use RxJS instead of raw WebSockets, check out [this article on WebSockets with RxJS](./websockets-with-rxjs).
+
+Now that we've gotten the housekeeping of why RxJS and WebSockets out of the way, let's get into
+how to use RxJS with React. I'll be using TypeScript for this example.
+
+### Setup
+
+With a React project ([create-react-app](https://create-react-app.dev/), [vite](https://vitejs.dev/),
+[Next.js](https://nextjs.org/), etc.) we can install RxJS with:
+
+```
+$ npm install rxjs
+or
+$ yarn add rxjs
+```
+
+Once we have RxJS installed, we can set up the websocket connection to use in our React components.
+
+```ts
+import { webSocket, WebSocketSubjectConfig } from 'rxjs/webSocket'
+
+const wsURL = 'ws://localhost:8080'
+const wsConfig: WebSocketSubjectConfig<Message> = { url: wsURL }
+
+const ws = webSocket<Message>(wsConfig)
+
+export function App() {
+  return (
+    <div className="App">
+      <h1>React with RxJS</h1>
+    </div>
+  )
+}
+```
+
+### What is that `<Message>`?
+
+We have to define the shape of the messages we are sending and receiving. We can do this with an
+interface in TypeScript.
+
+```ts
+interface Message {
+  operation?: '+' | '-'
+  count?: number
+}
+```
+
+In this case we can send a message with an `operation` of either `+` or `-` and
+receive the `count` from the server with a number.
+
+### Listening for messages to setState
+
+We need to be able to get the current state of the WebSocket. This highly depends on the application
+but for our this example, we have a simple counter.
+
+```ts
+const [count, setCount] = useState(0)
+
+ws.pipe(
+  tap((data) => {
+    setCount(data?.count ?? 0)
+  }),
+).subscribe()
+```
+
+We can use the `pipe` function to chain together multiple operators before we subscribe to the WebSocket.
+In this case, we use the `tap` operator to set state when we receive a message.
+
+So if we set up a `<p>Count {count}</p>` we should automagically see the current count from the server, right?.
+
+YES!! But only because that is the behavior we have set up on the server. That when a client connects, we send
+the current count.
+
+We can also send messages to the server. Let's add a button to increment and decrement
+the count
+
+```tsx
+<div className="App">
+  <p>Count {count}</p>
+  <button onClick={() => ws.next({ operation: '+' })}>+</button>
+  <button onClick={() => ws.next({ operation: '-' })}>-</button>
+</div>
+```
+
+In this case, we don't have to set our state after we send the message. The server will send us the
+response and we can set our state then.
+
+### Optimistic UI
+
+> React superpower alert
+>
+> Optimistic UIs are a way that we can make even the most complex applications in a slow network feel fast.
+
+However, we can also set our state before we send the message. This is called an **optimistic UI**.
+This is a common pattern in Mobile or Game development. We can set our state and then send the message
+assuming that all will go according to plan. However, if the server responds with an error (or a non-incremented counter)
+in our case. The `setState` will be overwritten with the correct value from the server
+
+```tsx
+function increment() {
+  setCount(count + 1)
+  ws.next({ operation: '+' })
+}
+
+function decrement() {
+  setCount(count - 1)
+  ws.next({ operation: '-' })
+}
+
+return (
+  <div className="App">
+    <p>Count {count}</p>
+    <button onClick={increment}>+</button>
+    <button onClick={decrement}>-</button>
+  </div>
+)
+```
+
+## Conclusion
+
+This has been a simple example of how to write Reactive React. In my next article, I'll be putting
+these into more practical use cases. I'll be building a Rock Paper Scissors Lizard Spock game with
+RxJS on the front end and the Serverless framework on the back end for a websocket API in AWS.
+
+[See the code here](https://github.com/TylerSustare/rpsls). [See the live demo here](https://rpsls1.vercel.app).
+
+## Resources - Full code
+
+### Backend WebSocket Server
+
+```js
+// Importing the required modules
+const WebSocketServer = require('ws')
+
+// Creating a new websocket server
+const wss = new WebSocketServer.Server({ port: 8080 })
+
+let globalCount = 0
+// Creating connection using websocket
+wss.on('connection', (ws) => {
+  console.log('new client connected')
+  // sending & receiving message
+  ws.on('message', (data) => {
+    console.log(`Client has sent us: ${data}`)
+    if (JSON.parse(data)?.operation === '+') {
+      globalCount++
+    }
+    if (JSON.parse(data)?.operation === '-') {
+      globalCount--
+    }
+    // send message to all connected clients
+    wss.clients.forEach(function each(client) {
+      if (client.readyState === WebSocketServer.OPEN) {
+        client.send(JSON.stringify({ count: globalCount }))
+      }
+    })
+  })
+  // returned when a client connects
+  return ws.send(JSON.stringify({ count: globalCount }))
+})
+console.log('The WebSocket server is running on port 8080')
+```
+
+### Frontend React App
+
+```tsx
+import { useState } from 'react'
+import './App.css'
+import { webSocket, WebSocketSubjectConfig } from 'rxjs/webSocket'
+import { tap } from 'rxjs/operators'
+
+interface Message {
+  operation?: '+' | '-'
+  count?: number
+}
+
+const wsURL = 'ws://localhost:8080'
+const wsConfig: WebSocketSubjectConfig<Message> = {
+  url: wsURL,
+  openObserver: {
+    next: () => {
+      console.log('WS connection opened')
+    },
+  },
+  closeObserver: {
+    next: (event) => {
+      // important to do if we're unmounting the component
+      if (event.wasClean) ws.complete()
+    },
+  },
+}
+
+const ws = webSocket<Message>(wsConfig)
+
+function App() {
+  const [count, setCount] = useState(0)
+
+  ws.pipe(
+    tap((data) => {
+      setCount(data?.count ?? 0)
+    }),
+  ).subscribe()
+
+  function increment() {
+    setCount(count + 1)
+    ws.next({ operation: '+' })
+  }
+
+  function decrement() {
+    setCount(count - 1)
+    ws.next({ operation: '-' })
+  }
+
+  return (
+    <div className="App">
+      <p>Count {count}</p>
+      <button onClick={increment}>+</button>
+      <button onClick={decrement}>-</button>
+    </div>
+  )
+}
+
+export default App
+```
