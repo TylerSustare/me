@@ -278,7 +278,7 @@ export default async function Home() {
               <span>Archery Guru</span>
             </a>
             , a startup that aims to help archers improve their skills and
-            organize archery events. I also teach computer science at{' '}
+            organize archery events. I have also taught computer science at{' '}
             <a
               className="text-teal-600 transition hover:text-teal-500 dark:text-teal-200 dark:hover:text-teal-500"
               href="https://osucascades.edu"

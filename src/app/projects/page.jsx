@@ -3,23 +3,36 @@ import Image from 'next/image'
 import { Card } from '@/components/Card'
 import { SimpleLayout } from '@/components/SimpleLayout'
 import logoAG from '@/images/logos/archery_guru.png'
+import logoRPS from '@/images/logos/rps.jpeg'
 
 const projects = [
   {
     name: 'Archery Guru',
     description:
-      'An app for archers to track their scores and progress over time.',
+      'An app for archers to track their scores and progress over time. Built primarily with Flutter and Firestore. The backend is event driven with Node.js. The app also sends push notifications to users to invite friends to a practice round.',
     link: { href: 'https://archeryguru.app', label: 'archeryguru.app' },
     tech: [
       'Flutter',
-      'Firebase',
+      'Firebase & Firestore',
       'Dart',
       'Node.js',
       'GCP',
       'Google Cloud Functions',
       'Google Cloud Messaging',
+      'In App Purchases',
     ],
     logo: logoAG,
+  },
+  {
+    name: 'Rock, Paper, Scissors, Lizard, Spock',
+    description:
+      'A simple game of Rock, Paper, Scissors, Lizard, Spock built with React and Go. Using websockets to communicate between the client and server. The websocket server is "serverless" using DynamoDB and API Gateway to serve Lambda functions.',
+    link: {
+      href: 'https://github.com/TylerSustare/rpsls',
+      label: 'github.com/TylerSustare/rpsls',
+    },
+    tech: ['React', 'Golang', 'AWS', 'DynamoDB', 'API Gateway', 'Lambda'],
+    logo: logoRPS,
   },
 ]
 
