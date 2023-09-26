@@ -60,7 +60,13 @@ export default function Teaching() {
             href="#"
             title="React Spring Animation"
             description="The tooling platform I was very vanilla, which is good when it comes to internal systems. But this presented a problem with our front-end developers. They wanted to be challenged and make cool things. So I decided to give a workshop on React Spring. I had never used it before, but I knew it was a great way to build cool animations. I spent a few days learning the basics and building a few demos. Then I gave a workshop to the front-end team. It was a mob programming session where we picked a feature and animated it. It was a great way to learn a new tool and build something cool."
-            event="March 2022"
+            event="August 2022"
+          />
+          <Appearance
+            href="#"
+            title="Testing Behavior with React Testing Library"
+            description="When we had a new opportunity, I hopped on replacing our old front end testing tools based on Enzyme with React Testing Library. I gave a workshop to the front end team on how to use React Testing Library to test behavior. Before we would test implementation details, like asserting that a function was called when the right Redux store was mocked, which made our tests brittle and hard to maintain. With React Testing Library we were able to test the behavior of our components, which made our tests give us more confidence of catching regressions. We still had to mock network interactions, but we tested the component as a user would interact with it."
+            event="May 2020"
           />
           <Appearance
             href="#"
@@ -73,12 +79,6 @@ export default function Teaching() {
             title="GQL Subscriptions"
             description="This was not a long workshop. I just showed how we could use GQL subscriptions in order to add functionality to our apps that we were historically using long polling for such as video encoding progress or practice test status. It was a good way to show how we could use GQL to make our apps more efficient and easier to maintain."
             event="November 2019"
-          />
-          <Appearance
-            href="#"
-            title="Testing Behavior with React Testing Library"
-            description="When we had a new opportunity, I hopped on replacing our old front end testing tools based on Enzyme with React Testing Library. I gave a workshop to the front end team on how to use React Testing Library to test behavior. Before we would test implementation details, like asserting that a function was called when the right Redux store was mocked, which made our tests brittle and hard to maintain. With React Testing Library we were able to test the behavior of our components, which made our tests give us more confidence of catching regressions. We still had to mock network interactions, but we tested the component as a user would interact with it."
-            event="May 2020"
           />
           <Appearance
             href="#"
