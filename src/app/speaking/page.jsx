@@ -52,45 +52,45 @@ export default function Teaching() {
         <TeachingSection title="Workshops">
           <Appearance
             href="#"
-            title="Scaling event consumption with fan-out pattern"
-            description="How we used world-class visual design to attract a great team, win over customers, and get more press for Planetaria."
-            event="Encoding Design, July 2022"
+            title="Scaling Shopify event consumption with fan-out pattern"
+            description="Our platform was having data pressure issues ingesting thousands of evens per second. Our old system was processing the requests as the events come in. This caused a long lag between the event being created and the event being processed. We were able to use a fan-out pattern to scale our event processing to handle the load. This allowed us to process events in real-time and reduce the lag from 30 minutes to less than a second. We would ingest the kafka event, then enqueue a job with sidekiq (the same would work for any job queue). The job would then be processed by a worker. The worker would then process the event and write the data to the database. This allowed us to scale the number of workers to handle the load. We were able to scale the number of workers via autoscaling groups to process 100,000 events per second at peak loads. The workshop was a great way to share knowledge and get everyone on the same page. We even had a working prototype by the end of it."
+            event="March 2023"
           />
           <Appearance
             href="#"
-            title="React Spring workshop"
-            description="The story of how we built one of the most promising space startups in the world without taking any capital from investors."
-            event="The Escape Velocity Show, March 2022"
+            title="React Spring Animation"
+            description="The tooling platform I was very vanilla, which is good when it comes to internal systems. But this presented a problem with our front-end developers. They wanted to be challenged and make cool things. So I decided to give a workshop on React Spring. I had never used it before, but I knew it was a great way to build cool animations. I spent a few days learning the basics and building a few demos. Then I gave a workshop to the front-end team. It was a mob programming session where we picked a feature and animated it. It was a great way to learn a new tool and build something cool."
+            event="March 2022"
           />
           <Appearance
             href="#"
-            title="dynamodb single table design"
-            description="On the importance of creating systems and processes for running your business so that everyone on the team knows how to make the right decision no matter the situation."
-            event="How They Work Radio, September 2021"
+            title="DynamoDB Single Table Design"
+            description='I could talk about this for hours. At the company I was working for we were using MongoDB as our primary data store for each of our microservices. As we started to scale these services, there started to be some performance and cost issues. First was not making the proper indexes for our Mongo collections. That was the first thing I addressed. However, we also started to dive in to DynamoDB for certain microservices. The problem with that, was everyone was treating DynamoDB the same as MongoDB. Trying to create a new DynamoDB table for what we would consider to be a new collection (or a new SQL table if you rather). This lead to even worse performance since we were joining at the app layer and querying across multiple tables. I gave a workshop on how to use DynamoDB as a single table. This involved using a "Single Table Design" pattern in order to have arbitrary strings as the hash and range keys. In this demo I revealed how I managed to structure the data in DynamoDB to use all of our access patterns to get any content for any training course on te platform. I showed how to use the "begins_with" operator to query across multiple entities. This was a great way to show how to use DynamoDB efficiently and save money with predictably fast speeds.'
+            event="February 2020"
           />
           <Appearance
             href="#"
             title="GQL Subscriptions"
-            description="On the importance of creating systems and processes for running your business so that everyone on the team knows how to make the right decision no matter the situation."
-            event="How They Work Radio, September 2021"
+            description="This was not a long workshop. I just showed how we could use GQL subscriptions in order to add functionality to our apps that we were historically using long polling for such as video encoding progress or practice test status. It was a good way to show how we could use GQL to make our apps more efficient and easier to maintain."
+            event="November 2019"
           />
           <Appearance
             href="#"
             title="Testing Behavior with React Testing Library"
-            description="On the importance of creating systems and processes for running your business so that everyone on the team knows how to make the right decision no matter the situation."
-            event="How They Work Radio, September 2021"
+            description="When we had a new opportunity, I hopped on replacing our old front end testing tools based on Enzyme with React Testing Library. I gave a workshop to the front end team on how to use React Testing Library to test behavior. Before we would test implementation details, like asserting that a function was called when the right Redux store was mocked, which made our tests brittle and hard to maintain. With React Testing Library we were able to test the behavior of our components, which made our tests give us more confidence of catching regressions. We still had to mock network interactions, but we tested the component as a user would interact with it."
+            event="May 2020"
           />
           <Appearance
             href="#"
             title="Efficient use of React Context"
-            description="On the importance of creating systems and processes for running your business so that everyone on the team knows how to make the right decision no matter the situation."
-            event="How They Work Radio, September 2021"
+            description="Our CBT Nuggets had been using Redux for a very long time. When it was first adopted, it made sense to use. It was the standard, and the best tool for the job at the time. However, with React Context, we could cut down on the need for Redux in many, many cases. I made a presentation to the team on how to use React Context efficiently. In the session we took a part of the Redux store and placed it in a context that made sense for the lifecycle of the components it was in. We even wrote tests that used the context as a pseudo DI that was easier than the tests we had using Enzyme. After this, we were able to cut down on the number of Redux stores by 80% and make our code much more modular."
+            event="April 2019"
           />
           <Appearance
             href="#"
             title="React Native with Expo"
-            description="On the importance of creating systems and processes for running your business so that everyone on the team knows how to make the right decision no matter the situation."
-            event="How They Work Radio, September 2021"
+            description="A small workshop with the custom software shop I used to work for. I had built some React Native skills with CBT Nuggets and wanted to share my knowledge with the team. We built a simple app that used the camera and location services. I still had many friends at the company and wanted to give back to the community. I wanted to help them learn a new skill, and technology that was more fun and efficient than the cordova/webview mobile apps they were used to."
+            event="January 2018"
           />
         </TeachingSection>
       </div>
